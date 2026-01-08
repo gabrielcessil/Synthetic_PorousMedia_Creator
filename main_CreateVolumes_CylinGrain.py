@@ -23,10 +23,10 @@ import utils
 def make_tubes_volume(MEAN_RADIUS, tubes_fill, solid_tubes, SHAPE, seed=0):
     
     dim         = 120
-    phi_max     = 45
-    theta_max   = 45
-    length      = None
-    maxiter     = 3
+    phi_max     = 75
+    theta_max   = 75
+    length      = 80
+    maxiter     = 10
 
 
     params_generic = {
@@ -47,7 +47,7 @@ def make_tubes_volume(MEAN_RADIUS, tubes_fill, solid_tubes, SHAPE, seed=0):
 
 
 # --- Simulation Parameters ---
-chunk_size      = 5   # Set for 1h of simulations (5 samples, 20 min per sample)
+chunk_size      = 10   # Set for 1h of simulations (5 samples, 20 min per sample)
 gres            = "gpu:k40m" #"gpu:k40m"#"gpu:a100"
 n_proc          = 1
 cpu             = 12 
@@ -57,7 +57,7 @@ gpu             = 64
 DIM             = 120
 SHAPE           = [DIM, DIM, DIM] # Shape must be a List for the function signature you provided
 AXIS_OF_FLOW    = 0 
-N_SAMPLES       = 1
+N_SAMPLES       = 5
 
 
 ##########################
@@ -66,7 +66,6 @@ N_SAMPLES       = 1
 
 output_root = "Test_CylinGrain_120_120_120"
 os.makedirs(output_root, exist_ok=True)
-
 volumes             = []
 solid_spheres       = True
 total_samples       = 0
@@ -75,29 +74,41 @@ n_porosities = 5
 n_radius     = 5
 
 config_pairs = [
-    (0.3, 4),
+    # High porosity
+    (0.2, 4), 
+    (0.2, 6),
+    (0.2, 8),
+    (0.2, 10),
+
     (0.3, 6),
     (0.3, 8),
+    (0.3, 10),
     (0.3, 12),
-    (0.3, 14),
+
+    (0.4, 8),
+    (0.4, 10),
+    (0.4, 12),
+    (0.4, 14),
 
     (0.5, 10),
     (0.5, 12),
     (0.5, 14),
     (0.5, 16),
-    (0.5, 18),
+    
+    (0.6, 12),
+    (0.6, 14),
+    (0.6, 16),
+    (0.6, 18),
     
     (0.7, 14),
     (0.7, 16),
     (0.7, 18),
     (0.7, 20),
-    (0.7, 22),
     
     (0.8, 16),
     (0.8, 18),
     (0.8, 20),
     (0.8, 22),
-    (0.8, 24),
     
     ]
 for SPHERES_FILL, MEAN_RADIUS in config_pairs:    # Porosities large enough so that spheres touch
@@ -123,7 +134,7 @@ for SPHERES_FILL, MEAN_RADIUS in config_pairs:    # Porosities large enough so t
         # Sanity checks
         if not utils.is_percolating(vol, axis=0):
             print(f"Sample {n} do not percolate and got removed.")
-        elif not utils.is_well_resolved(vol, min_pore_mean=3, max_pore_mean=6):
+        elif not utils.is_well_resolved(vol, min_pore_mean=3, max_pore_mean=5.5):
             print(f"Sample {n} has geometry out of scope and got removed.")
         else:        
             print(f"Sample {n} got included.")
@@ -134,4 +145,12 @@ for SPHERES_FILL, MEAN_RADIUS in config_pairs:    # Porosities large enough so t
         print("-" * 30)
 
         
-
+total_samples = 140
+utils.generate_slurm_run_scripts_chunks(list(range(0, total_samples + 1)),
+                                  n_proc,
+                                  gres,
+                                  output_root,
+                                  chunk_size,
+                                  cpu, 
+                                  gpu,
+                                  f"Run_{0}_{total_samples}.sh")

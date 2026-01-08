@@ -76,7 +76,6 @@ def generate_slurm_run_scripts_chunks(
 module load lbpm/gpu/poro_dev_78ba76
 
 # Ir para o diretório raiz das amostras
-cd DeePore_Samples
 
 echo "=== Chunk {chunk_id:03d} | Samples {start_idx:05d} to {end_idx:05d} ==="
 
@@ -152,10 +151,11 @@ mpirun -np {n_proc} lbpm_permeability_simulator simulation.db
     
     
 def is_well_resolved(data: NDArray, min_pore_mean, max_pore_mean):
-    snow = ps.filters.snow_partitioning(data)
-    network = ps.networks.regions_to_network(regions=snow.regions)
-    pore_diameters = network['pore.inscribed_diameter'] /2
-    print(np.mean(pore_diameters)/2, np.mean(pore_diameters)/2)
+    snow                = ps.filters.snow_partitioning(data)
+    network             = ps.networks.regions_to_network(regions=snow.regions)
+    pore_diameters      = network['pore.inscribed_diameter'] /2
+    throat_diameters    = network['throat.inscribed_diameter'] /2
+    print("Mean Pore: ", np.mean(pore_diameters)/2, "; Mean Throat: ", np.mean(throat_diameters)/2)
     return np.mean(pore_diameters)/2 >= min_pore_mean and np.mean(pore_diameters)/2 <= max_pore_mean
 
 def is_percolating(

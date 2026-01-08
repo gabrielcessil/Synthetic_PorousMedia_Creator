@@ -25,7 +25,7 @@ def make_spheres_volume(MEAN_RADIUS, SPHERES_FILL, solid_spheres, SHAPE, seed=0)
     
     MIN_RADIUS          = min(MEAN_RADIUS/6,4)
     # Standard deviation estimation
-    StdDev              = MEAN_RADIUS/6
+    StdDev              = MEAN_RADIUS/3
     # Define the normal distribution object (Mean=5, StdDev=3)
     radius_distribution = sps.norm(loc=MEAN_RADIUS, scale=StdDev)
     
@@ -45,7 +45,7 @@ def make_spheres_volume(MEAN_RADIUS, SPHERES_FILL, solid_spheres, SHAPE, seed=0)
 
 
 # --- Simulation Parameters ---
-chunk_size      = 5   # Set for 1h of simulations (5 samples, 20 min per sample)
+chunk_size      = 10   # Set for 1h of simulations (5 samples, 20 min per sample)
 gres            = "gpu:k40m" #"gpu:k40m"#"gpu:a100"
 n_proc          = 1
 cpu             = 12 
@@ -68,8 +68,8 @@ os.makedirs(output_root, exist_ok=True)
 volumes             = []
 solid_spheres       = False
 total_samples       = 0
-for SPHERES_FILL in [0.6, 0.7, 0.8, 0.9]:    # Porosities large enough so that spheres touch
-    for MEAN_RADIUS in [9, 12, 15]:          
+for SPHERES_FILL in [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:    # Porosities large enough so that spheres touch
+    for MEAN_RADIUS in [12,14,16,18,20]:            
         created = 0
         for n in range(N_SAMPLES*50):
             if created >= N_SAMPLES: break
@@ -104,7 +104,7 @@ for SPHERES_FILL in [0.6, 0.7, 0.8, 0.9]:    # Porosities large enough so that s
 
         
 
-utils.generate_slurm_run_scripts_chunks(list(range(0, total_samples + 1)),
+utils.generate_slurm_run_scripts_chunks(list(range(0, total_samples)),
                                   n_proc,
                                   gres,
                                   output_root,

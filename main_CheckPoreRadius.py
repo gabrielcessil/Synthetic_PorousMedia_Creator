@@ -11,20 +11,21 @@ from scipy import ndimage
 
 
 # Real rock test domain (Pre-salt)
-#"""
+"""
 BASE_DIRECTORIES = [
     "./Test_PreSal_120_120_120/Samples"
 ]
-#"""
-# Synthetic test domains
 """
+
+# Synthetic test domains
+#"""
 BASE_DIRECTORIES = [
                     "./Test_CylinGrain_120_120_120/Samples_CylinGrain", 
                     "./Test_CylinPore_120_120_120/Samples_CylinPore", 
                     "./Test_SphGrain_120_120_120/Samples_SphGrain", 
                     "./Test_SphPore_120_120_120/Samples_SphPore"]
 
-"""
+#"""
 
 # Real rocks test domain
 """

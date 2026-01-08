@@ -23,10 +23,10 @@ import utils
 def make_tubes_volume(MEAN_RADIUS, tubes_fill, solid_tubes, SHAPE, seed=0):
     
     dim         = 120
-    phi_max     = 45
-    theta_max   = 45
-    length      = None
-    maxiter     = 3
+    phi_max     = 75
+    theta_max   = 75
+    length      = 80
+    maxiter     = 10
 
 
     params_generic = {
@@ -47,7 +47,7 @@ def make_tubes_volume(MEAN_RADIUS, tubes_fill, solid_tubes, SHAPE, seed=0):
 
 
 # --- Simulation Parameters ---
-chunk_size      = 5   # Set for 1h of simulations (5 samples, 20 min per sample)
+chunk_size      = 10   # Set for 1h of simulations (5 samples, 20 min per sample)
 gres            = "gpu:k40m" #"gpu:k40m"#"gpu:a100"
 n_proc          = 1
 cpu             = 12 
@@ -70,7 +70,7 @@ os.makedirs(output_root, exist_ok=True)
 volumes             = []
 solid_spheres       = False
 total_samples       = 0
-for SPHERES_FILL in [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:    # Porosities large enough so that spheres touch
+for SPHERES_FILL in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:    # Porosities large enough so that spheres touch
     for MEAN_RADIUS in [8,12,14,16]:     
         created = 0
         for n in range(N_SAMPLES*50):

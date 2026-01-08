@@ -11,7 +11,7 @@ def make_spheres_volume(MEAN_RADIUS, SPHERES_FILL, solid_spheres, SHAPE, seed=0)
     
     MIN_RADIUS          = min(MEAN_RADIUS/6,4)
     # Standard deviation estimation
-    StdDev              = MEAN_RADIUS/6
+    StdDev              = MEAN_RADIUS/3 
     # Define the normal distribution object (Mean=5, StdDev=3)
     radius_distribution = sps.norm(loc=MEAN_RADIUS, scale=StdDev)
     
@@ -32,7 +32,7 @@ def make_spheres_volume(MEAN_RADIUS, SPHERES_FILL, solid_spheres, SHAPE, seed=0)
 
 
 # --- Simulation Parameters ---
-chunk_size      = 5   # Set for 1h of simulations (5 samples, 20 min per sample)
+chunk_size      = 10   # Set for 1h of simulations (5 samples, 20 min per sample)
 gres            = "gpu:k40m" #"gpu:k40m"#"gpu:a100"
 n_proc          = 1
 cpu             = 12 
@@ -58,31 +58,42 @@ total_samples       = 0
 
 config_pairs = [
     
-    (0.3, 9),
+    (0.2, 8),
+    (0.2, 10),
+    (0.2, 12),
+    (0.2, 14),
+    
+    (0.3, 10),
     (0.3, 12),
     (0.3, 14),
-    (0.3, 16),
+    (0.4, 16),
     
     (0.4, 12),
     (0.4, 14),
     (0.4, 16),
-    (0.4, 18),
+    (0.5, 18),
+    
+    (0.5, 14),
+    (0.5, 16),
+    (0.5, 18),
+    (0.5, 20),
     
     (0.6, 16),
     (0.6, 18),
     (0.6, 20),
     (0.6, 22),
     
-    (0.7, 18),
     (0.7, 20),
     (0.7, 22),
     (0.7, 24),
+    (0.7, 26),
     
-    (0.8, 22),
     (0.8, 24),
     (0.8, 26),
-
+    (0.8, 28),
+    (0.8, 30),
     ]
+
 for SPHERES_FILL, MEAN_RADIUS in config_pairs:    # Porosities large enough so that spheres touch         
         created = 0
         for n in range(N_SAMPLES*50):

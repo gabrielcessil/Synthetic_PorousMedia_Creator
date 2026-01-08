@@ -6,8 +6,11 @@ n_proc          = 1
 cpu             = 12 
 gpu             = 64
 
-output_root = "./Test_SphGrain_120_120_120/"
-indices     = list(range(0, 95))
+output_root     = "./Test_SphPore_120_120_120/"
+n_samples       = 60
+
+
+indices     = list(range(0, n_samples+1))
 utils.generate_slurm_run_scripts_chunks(
     indices,
     n_proc,

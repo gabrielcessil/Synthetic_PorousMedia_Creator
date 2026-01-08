@@ -323,13 +323,13 @@ def make_dataset(
 
 
 # Configuration
-OUTPUT_DIR      = "/home/gabriel/remote/hal/dissertacao/simulations/deepore_256_256_256/Dataset"
-SAMPLES_COLL_DIR= "/home/gabriel/remote/hal/dissertacao/simulations/deepore_256_256_256/DeePore_Samples"
-PATTERN_DIR     = r"^DeePore_Sample_(\d+)$"
+OUTPUT_DIR      = "/home/gabriel/remote/hal/dissertacao/simulations/Test_Oliveira_Bandera_120_120_120/Dataset/"
+SAMPLES_COLL_DIR= "/home/gabriel/remote/hal/dissertacao/simulations/Test_Oliveira_Bandera_120_120_120/Samples/"
+PATTERN_DIR     = r"^Sample_(\d+)$"
 
-N_SAMPLES       = 9  
-DATASET_NAME    = f"LBPM_{N_SAMPLES}samples"
-RAW_SHAPE       = (256, 256, 256)
+N_SAMPLES       = 10  
+DATASET_NAME    = f"Test_Oliveira_Bandera_{N_SAMPLES}samples"
+RAW_SHAPE       = (120, 120, 120)
 RAW_DTYPE       = np.uint8
 
 
